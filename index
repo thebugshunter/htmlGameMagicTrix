@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Magic Tricks Extravaganza</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #f6d365, #fda085);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2.0rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      width: 90%;
+      max-width: 600px;
+      text-align: center;
+    }
+    p {
+      margin: 10px 0;
+    }
+    button {
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border: none;
+      border-radius: 10px;
+      background: #ffad60;
+      color: white;
+      transition: background 0.3s ease;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #ff8c00;
+    }
+    
+    /* 1. Abracadabra Flip Card */
+    .flip-card-container {
+      perspective: 1000px;
+      margin: 20px auto;
+    }
+    .flip-card {
+      width: 200px;
+      height: 300px;
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+      cursor: pointer;
+      position: relative;
+      margin: auto;
+    }
+    .flip-card.flipped {
+      transform: rotateY(180deg);
+    }
+    .flip-card-side {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    .flip-card-front {
+      background-color: #f0f0f0;
+    }
+    .flip-card-back {
+      background-color: #ffcc00;
+      transform: rotateY(180deg);
+    }
+    
+    /* 2. Vanishing Text */
+    .vanish-text {
+      font-size: 2rem;
+      transition: opacity 1s ease;
+      margin: 20px;
+    }
+    .vanish-text.hidden {
+      opacity: 0;
+    }
+    
+    /* 3. Magic 8-Ball */
+    .magic8-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .magic8 {
+      width: 200px;
+      height: 200px;
+      background-color: black;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 1.2rem;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      margin: 20px auto;
+    }
+    
+    /* 4. Confetti Explosion */
+    .confetti-container {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      margin: 20px auto;
+    }
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: red;
+      opacity: 0.8;
+      transform: rotate(45deg);
+      animation: confetti-fall 3s linear forwards;
+    }
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(250px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    /* 5. Wacky Word Morphing */
+    .morph-text {
+      font-size: 2rem;
+      margin: 20px;
+      transition: color 0.5s ease, opacity 0.5s ease;
+      cursor: pointer;
+    }
+    
+    /* 6. Wizard's Portal Reveal */
+    .portal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: radial-gradient(circle, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.9) 80%);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .portal-overlay.active {
+      display: flex;
+      animation: portalOpen 1s ease-out forwards;
+    }
+    @keyframes portalOpen {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    .portal-message {
+      color: #fff;
+      font-size: 2rem;
+      text-align: center;
+    }
+    
+    /* 7. Mystic Shape Shifter */
+    .morph-shape {
+      width: 150px;
+      height: 150px;
+      background: linear-gradient(45deg, #ff595e, #1982c4);
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      border-radius: 50%;
+      transition: all 0.8s ease;
+      cursor: pointer;
+    }
+    .morph-shape.square {
+      border-radius: 0;
+      background: linear-gradient(45deg, #8ac926, #ffca3a);
+    }
+    
+    /* 8. Enchanted Image Riddle */
+    .riddle-box {
+      width: 250px;
+      height: 150px;
+      margin: 20px auto;
+      background-image: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(0,0,0,0.2));
+      color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.5s ease;
+      border-radius: 10px;
+      background-color: #ffad60;
+    }
+    .riddle-box:hover {
+      background-image: none;
+      color: #fff;
+    }
+    
+    /* 9. Riddlers Corner */
+    #riddleDisplay,
+    #riddleAnswer {
+      font-size: 1.2rem;
+      margin: 20px auto;
+      max-width: 90%;
+      transition: opacity 0.5s ease;
+    }
+  </style>
+</head>
+<body>
+  <h1>Magic Tricks Extravaganza - Extended Edition</h1>
+
+  <!-- 1. Abracadabra Flip Card -->
+  <div class="section" id="flipCardSection">
+    <h2>1. Abracadabra Flip Card</h2>
+    <div class="flip-card-container">
+      <div class="flip-card" id="flipCard">
+        <div class="flip-card-side flip-card-front">
+          Click Me
+        </div>
+        <div class="flip-card-side flip-card-back">
+          Ta-da!
+        </div>
+      </div>
+    </div>
+    <p>Click on the card to reveal its hidden side!</p>
+  </div>
+
+  <!-- 2. Vanishing Act Magic Text -->
+  <div class="section" id="vanishingTextSection">
+    <h2>2. Vanishing Act Magic Text</h2>
+    <div>
+      <div id="vanishText" class="vanish-text">Watch me vanish!</div>
+      <button id="vanishBtn">Disappear</button>
+    </div>
+    <p>Toggle the vanishing text with a simple button click.</p>
+  </div>
+
+  <!-- 3. Mystical Magic 8-Ball Predictor -->
+  <div class="section" id="magic8Section">
+    <h2>3. Mystical Magic 8-Ball Predictor</h2>
+    <div class="magic8-container">
+      <div id="magic8" class="magic8">
+        Ask a question<br>(Click me)
+      </div>
+      <p id="magicResponse"></p>
+    </div>
+    <p>Click the Magic 8-Ball to get your fortune.</p>
+  </div>
+
+  <!-- 4. Confetti Explosion Trick -->
+  <div class="section" id="confettiSection">
+    <h2>4. Confetti Explosion Trick</h2>
+    <button id="confettiBtn">Explode Confetti!</button>
+    <div id="confettiContainer" class="confetti-container"></div>
+    <p>Press the button and watch confetti rain down like magic!</p>
+  </div>
+
+  <!-- 5. Wacky Word Morphing Trick -->
+  <div class="section" id="morphSection">
+    <h2>5. Wacky Word Morphing Trick</h2>
+    <div id="morphText" class="morph-text">
+      Abracadabra!
+    </div>
+    <p>Click on the text to morph it into a surprise message!</p>
+  </div>
+
+  <!-- 6. Wizard's Portal Reveal -->
+  <div class="section" id="portalSection">
+    <h2>6. Wizard's Portal Reveal</h2>
+    <button id="portalBtn">Enter the Portal</button>
+    <div id="portalOverlay" class="portal-overlay">
+      <div class="portal-message">
+        Welcome to the magical realm!<br>
+        <button id="closePortalBtn" style="margin-top:20px; padding: 0.3rem 0.6rem;">Close Portal</button>
+      </div>
+    </div>
+    <p>Click the button to step through a mystic portal.</p>
+  </div>
+
+  <!-- 7. Mystic Shape Shifter -->
+  <div class="section" id="shapeSection">
+    <h2>7. Mystic Shape Shifter</h2>
+    <div id="morphShape" class="morph-shape">
+      Magic Shape
+    </div>
+    <p>Click the shape for a surprising transformation!</p>
+  </div>
+
+  <!-- 8. Enchanted Image Riddle -->
+  <div class="section" id="riddleBoxSection">
+    <h2>8. Enchanted Image Riddle</h2>
+    <div id="riddleBox" class="riddle-box">
+      Hover here to reveal the secret!
+    </div>
+    <p>Hover over the box to witness the magic!</p>
+  </div>
+
+  <!-- 9. Riddlers Corner -->
+  <div class="section" id="riddlersSection">
+    <h2>9. Riddlers Corner</h2>
+    <div id="riddleDisplay">Here a riddle will appear...</div>
+    <div id="riddleAnswer" style="opacity: 0;">Answer: ...</div>
+    <button id="revealRiddleBtn" style="margin-right: 10px;">Show Answer</button>
+    <button id="nextRiddleBtn">Next Riddle</button>
+    <p>Try solving the riddle before revealing its answer!</p>
+  </div>
+
+  <script>
+    // 1. Flip Card Logic
+    document.getElementById('flipCard').addEventListener('click', function() {
+      this.classList.toggle('flipped');
+    });
+
+    // 2. Vanishing Text Logic
+    document.getElementById('vanishBtn').addEventListener('click', function() {
+      const txtEl = document.getElementById('vanishText');
+      txtEl.classList.toggle('hidden');
+      this.textContent = txtEl.classList.contains('hidden') ? 'Reappear' : 'Disappear';
+    });
+
+    // 3. Magic 8-Ball Predictor Logic
+    const responses = [
+      "It is certain.",
+      "Reply hazy, try again.",
+      "Don't count on it.",
+      "Yes, definitely!",
+      "My reply is no.",
+      "Signs point to yes.",
+      "Ask again later."
+    ];
+    document.getElementById('magic8').addEventListener('click', () => {
+      const randomIndex = Math.floor(Math.random() * responses.length);
+      document.getElementById('magicResponse').textContent = responses[randomIndex];
+    });
+
+    // 4. Confetti Explosion Logic
+    document.getElementById('confettiBtn').addEventListener('click', () => {
+      const container = document.getElementById('confettiContainer');
+      container.innerHTML = ''; // Clear previous confetti
+      for (let i = 0; i < 30; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * 100 + '%';
+        const colors = ['#ff595e', '#ffca3a', '#8ac926', '#1982c4', '#6a4c93'];
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() + 's';
+        container.appendChild(confetti);
+      }
+    });
+
+    // 5. Wacky Word Morphing Logic
+    const phrases = [
+      "Abracadabra!",
+      "Hocus Pocus!",
+      "Open Sesame!",
+      "Alakazam!",
+      "Presto Chango!",
+      "Shazam!"
+    ];
+    document.getElementById('morphText').addEventListener('click', () => {
+      const textEl = document.getElementById('morphText');
+      const currentText = textEl.textContent;
+      let newPhrase;
+      do {
+        newPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+      } while (newPhrase === currentText);
+      
+      textEl.style.opacity = 0;
+      setTimeout(() => {
+        textEl.textContent = newPhrase;
+        const colors = ['#ff595e', '#ffca3a', '#8ac926', '#1982c4', '#6a4c93'];
+        textEl.style.color = colors[Math.floor(Math.random() * colors.length)];
+        textEl.style.opacity = 1;
+      }, 500);
+    });
+
+    // 6. Wizard's Portal Reveal Logic
+    document.getElementById('portalBtn').addEventListener('click', () => {
+      document.getElementById('portalOverlay').classList.add('active');
+    });
+    document.getElementById('closePortalBtn').addEventListener('click', () => {
+      document.getElementById('portalOverlay').classList.remove('active');
+    });
+
+    // 7. Mystic Shape Shifter Logic
+    document.getElementById('morphShape').addEventListener('click', () => {
+      const shapeEl = document.getElementById('morphShape');
+      shapeEl.classList.toggle('square');
+    });
+
+    // 9. Riddlers Corner Logic
+    const riddles = [
+      {
+        question: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?",
+        answer: "An echo"
+      },
+      {
+        question: "I come from a mine and get surrounded by wood always. Everyone uses me. What am I?",
+        answer: "Pencil lead"
+      },
+      {
+        question: "I have keys but no locks, space but no rooms. You can enter, but can't go outside. What am I?",
+        answer: "A keyboard"
+      }
+    ];
+    let currentRiddleIndex = -1;
+    function loadNewRiddle() {
+      let newIndex;
+      do {
+        newIndex = Math.floor(Math.random() * riddles.length);
+      } while (newIndex === currentRiddleIndex);
+      currentRiddleIndex = newIndex;
+      const riddle = riddles[currentRiddleIndex];
+      document.getElementById("riddleDisplay").textContent = riddle.question;
+      document.getElementById("riddleAnswer").textContent = "Answer: " + riddle.answer;
+      document.getElementById("riddleAnswer").style.opacity = 0;
+      document.getElementById("revealRiddleBtn").textContent = "Show Answer";
+    }
+    
+    document.getElementById("revealRiddleBtn").addEventListener("click", () => {
+      const answerEl = document.getElementById("riddleAnswer");
+      if (answerEl.style.opacity == 0 || answerEl.style.opacity === "") {
+        answerEl.style.opacity = 1;
+        document.getElementById("revealRiddleBtn").textContent = "Hide Answer";
+      } else {
+        answerEl.style.opacity = 0;
+        document.getElementById("revealRiddleBtn").textContent = "Show Answer";
+      }
+    });
+    
+    document.getElementById("nextRiddleBtn").addEventListener("click", loadNewRiddle);
+    
+    // Load an initial riddle on page load:
+    loadNewRiddle();
+  </script>
+</body>
+</html>
